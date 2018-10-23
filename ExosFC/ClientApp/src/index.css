@@ -6,6 +6,14 @@ h1 {
     color: #dc9910;
 }
 
+.react-bs-container-body tr {
+    border-top-style: hidden !important;
+}
+
+.react-bs-container-header tr {
+    border-bottom-style: hidden !important;
+}
+
 @media (max-width: 767px) {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     /*body {

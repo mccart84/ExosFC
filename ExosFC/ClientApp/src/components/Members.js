@@ -1,21 +1,83 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { actionCreators } from '../store/Counter';
+import { actionCreators } from '../store/members';
 
-const Members = props => (
-    <div>
-        <h1>Counter</h1>
+const API = 'https://xivapi.com/freecompany/9233786610993142599?data=FCM'
 
-        <p>This is a simple example of a React component.</p>
+class Members extends Component {
+    constructor(props) {
+        super(props);
 
-        <p>Current count: <strong>{props.count}</strong></p>
+        this.state = {
+            memberData: null,
+            isLoading: false,
+        };
+    }
 
-        <button onClick={props.increment}>Increment</button>
-    </div>
-);
+    componentDidMount() {
+        this.setState({ isLoading: true })
 
-export default connect(
-    state => state.counter,
-    dispatch => bindActionCreators(actionCreators, dispatch)
-)(Members);
+        fetch(API)
+            .then(response => response.json())
+            .then(data => this.setState({ memberData: data, isLoading: false }))
+    }
+
+    render() {
+        const { memberData, isLoading } = this.state;
+
+        if (isLoading)
+            return <p>Loading ...</p>;
+
+        return (
+            <div>
+                {buildMemberRows(memberData)}
+            </div>
+        );
+    }
+}
+
+function redirectToLodestone(id) {
+        if (typeof window !== 'undefined') {
+            window.location.href = "https://na.finalfantasyxiv.com/lodestone/character/" + id + "/";
+        }
+}
+
+function buildMemberRows(props) {
+    if (props != null && props.FreeCompanyMembers != null) {
+        return (
+            <table className='table table-collapse'>
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Name</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {props.FreeCompanyMembers.map(member =>
+                        <tr key={member.ID}>
+                            <td><a href={'https://na.finalfantasyxiv.com/lodestone/character/' + member.ID + '/'}><img src={member.Avatar} height="35px" width="35px"/></a></td>
+                            <td style={{ paddingTop: 15 + 'px', fontSize: 18 + 'px', color: '#dc9910'}}>{member.Name}</td>
+                            <td style={{ paddingTop: 15 + 'px', fontSize: 18 + 'px', color: '#dc9910' }}><img src={member.RankIcon} height="20px" /> {member.Rank}</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        );
+    } else {
+        return (
+            <table className='table'>
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Name</th>
+                        <th>Rank</th>
+                    </tr>
+                </thead>                
+            </table>
+        );
+    }
+}
+
+export default Members;
