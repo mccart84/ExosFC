@@ -1,6 +1,19 @@
+html, body {
+    background-color: #222;
+}
+
+h1 {
+    color: #dc9910;
+}
+
 @media (max-width: 767px) {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    body {
+    /*body {
         padding-top: 50px;
+        background-color: #222;
+    }*/
+
+    html {
+        background-color: #222;
     }
 }
