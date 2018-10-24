@@ -47,13 +47,6 @@ function buildMemberRows(props) {
     if (props != null && props.FreeCompanyMembers != null) {
         return (
             <table className='table table-collapse'>
-                <thead>
-                    <tr>
-                        <th>Avatar</th>
-                        <th>Name</th>
-                        <th>Rank</th>
-                    </tr>
-                </thead>
                 <tbody>
                     {props.FreeCompanyMembers.map(member =>
                         <tr key={member.ID}>
@@ -63,18 +56,6 @@ function buildMemberRows(props) {
                         </tr>
                     )}
                 </tbody>
-            </table>
-        );
-    } else {
-        return (
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>Avatar</th>
-                        <th>Name</th>
-                        <th>Rank</th>
-                    </tr>
-                </thead>                
             </table>
         );
     }
